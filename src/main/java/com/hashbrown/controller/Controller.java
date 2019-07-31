@@ -15,7 +15,7 @@ public class Controller {
     @RequestMapping(value="/")
     @ResponseBody
     public String sampleHome() {
-        
+        int a = 0;
         return "Hello Spring Boot!";
         
     }
