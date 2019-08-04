@@ -1,38 +1,56 @@
 package com.hashbrown.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hashbrown.model.GroupRequestBody;
 import com.hashbrown.model.PostTest;
 import com.hashbrown.model.PostTestResponseBody;
+import com.hashbrown.repository.Repository;
+import com.hashbrown.repository.vo.GroupInfo;
+import com.hashbrown.service.DataService;
+
 
 @RestController
 @EnableAutoConfiguration
 public class Controller {
+	
+	private Logger logger = LoggerFactory.getLogger(Controller.class);
+
 	@Value("${who.am.i}")
 	private String whoAmI;
+	
+	@Autowired
+	private DataService dService;
  
     @RequestMapping(value="/", method=RequestMethod.GET)
     @ResponseBody
     public String sampleHome() {
+    	GroupInfo g = new GroupInfo("aaa");
+    	logger.info(g.toString());
+    	dService.save(g);
         return "Hello Spring Boot!";
         
     }
     
-    @RequestMapping(value="/input/{val}", method=RequestMethod.GET)
+    @RequestMapping(value="/group", method=RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseBody
-    public String getInput(@PathVariable(value="val") String v) {
-        return v;
-        
-    }
+    public void postGroup(@RequestBody GroupRequestBody g) {
+    	logger.info(g.toString());
+    	dService.save(new GroupInfo(g.getGroupName()));
+    } 
+    
     
     @RequestMapping(value="/test", method=RequestMethod.POST)
     @ResponseBody
