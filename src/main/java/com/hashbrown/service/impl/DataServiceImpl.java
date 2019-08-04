@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hashbrown.model.GroupRequestBody;
 import com.hashbrown.repository.Repository;
 import com.hashbrown.repository.vo.GroupInfo;
 import com.hashbrown.service.DataService;
@@ -25,9 +26,9 @@ public class DataServiceImpl implements DataService {
 	}
 
 	@Override
-	public GroupInfo save(GroupInfo g) {
-		repo.save(g);
-		return g;
+	public GroupInfo save(GroupRequestBody g) {
+		GroupInfo group = repo.save(new GroupInfo(g.getGroupName()));
+		return group;
 	}
 
 	@Override

@@ -37,9 +37,6 @@ public class Controller {
     @RequestMapping(value="/", method=RequestMethod.GET)
     @ResponseBody
     public String sampleHome() {
-    	GroupInfo g = new GroupInfo("aaa");
-    	logger.info(g.toString());
-    	dService.save(g);
         return "Hello Spring Boot!";
         
     }
@@ -48,7 +45,7 @@ public class Controller {
     @ResponseBody
     public void postGroup(@RequestBody GroupRequestBody g) {
     	logger.info(g.toString());
-    	dService.save(new GroupInfo(g.getGroupName()));
+    	dService.save(g);
     } 
     
     
