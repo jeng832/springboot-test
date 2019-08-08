@@ -1,9 +1,12 @@
 package com.hashbrown.model;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class GroupRequestBody {
+public class PostGroupRequestBody {
 	@JsonProperty("group_name")
+	@NotNull
 	private String groupName;
 
 	public String getGroupName() {
