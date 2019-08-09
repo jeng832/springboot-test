@@ -3,8 +3,8 @@ package com.hashbrown.model;
 import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hashbrown.dao.mysql.entity.GroupInfo;
-import com.hashbrown.dao.mysql.entity.UserInfo;
+import com.hashbrown.dao.entity.GroupInfo;
+import com.hashbrown.dao.entity.UserInfo;
 
 public class GetUserResponseBody {
 	@JsonProperty("uid")

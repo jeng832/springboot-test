@@ -1,8 +1,8 @@
-package com.hashbrown.dao.redis.repository;
+package com.hashbrown.cache.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.hashbrown.dao.redis.entity.CachedUser;
+import com.hashbrown.cache.entity.CachedUser;
 
 public interface RedisRepository extends CrudRepository<CachedUser, String> {
 

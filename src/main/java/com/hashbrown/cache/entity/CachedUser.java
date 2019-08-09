@@ -1,4 +1,4 @@
-package com.hashbrown.dao.redis.entity;
+package com.hashbrown.cache.entity;
 
 import java.io.Serializable;
 

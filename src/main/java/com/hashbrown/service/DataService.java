@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.hashbrown.dao.mysql.entity.GroupInfo;
-import com.hashbrown.dao.mysql.entity.UserInfo;
+import com.hashbrown.dao.entity.GroupInfo;
+import com.hashbrown.dao.entity.UserInfo;
 import com.hashbrown.model.PostGroupRequestBody;
 import com.hashbrown.model.PostUserRequestBody;
 

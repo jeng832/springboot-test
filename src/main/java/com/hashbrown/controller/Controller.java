@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hashbrown.dao.mysql.entity.GroupInfo;
-import com.hashbrown.dao.mysql.entity.UserInfo;
+import com.hashbrown.dao.entity.GroupInfo;
+import com.hashbrown.dao.entity.UserInfo;
 import com.hashbrown.model.GetGroupResponseBody;
 import com.hashbrown.model.GetUserResponseBody;
 import com.hashbrown.model.PostGroupRequestBody;

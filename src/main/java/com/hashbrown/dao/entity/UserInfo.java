@@ -1,4 +1,4 @@
-package com.hashbrown.dao.mysql.entity;
+package com.hashbrown.dao.entity;
 
 import java.sql.Timestamp;
 

@@ -3,7 +3,7 @@ package com.hashbrown.model;
 import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hashbrown.dao.mysql.entity.GroupInfo;
+import com.hashbrown.dao.entity.GroupInfo;
 
 public class GetGroupResponseBody {
 	@JsonProperty("gid")
