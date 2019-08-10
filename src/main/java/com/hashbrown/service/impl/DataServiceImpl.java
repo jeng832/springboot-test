@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hashbrown.cache.entity.CachedUser;
 import com.hashbrown.cache.repository.RedisRepository;
@@ -16,11 +17,13 @@ import com.hashbrown.dao.entity.GroupInfo;
 import com.hashbrown.dao.entity.UserInfo;
 import com.hashbrown.dao.repository.GroupInfoRepository;
 import com.hashbrown.dao.repository.UserInfoRepository;
+import com.hashbrown.exception.GroupIsNotExistException;
 import com.hashbrown.model.PostGroupRequestBody;
 import com.hashbrown.model.PostUserRequestBody;
 import com.hashbrown.service.DataService;
 
 @Service
+@Transactional
 public class DataServiceImpl implements DataService {
 	private Logger logger = LoggerFactory.getLogger(DataServiceImpl.class);
 	@Autowired
@@ -37,6 +40,7 @@ public class DataServiceImpl implements DataService {
 	public List<GroupInfo> findAllGroup() {
 		List<GroupInfo> groups = new ArrayList<GroupInfo>();
 		groupRepo.findAll().forEach(e -> groups.add(e));
+		
 		return groups;
 	}
 
@@ -67,12 +71,12 @@ public class DataServiceImpl implements DataService {
 	@Override
 	public List<UserInfo> findByUserName(String userName) {
 		List<UserInfo> users = userRepo.findByUserName(userName);
-		return Optional.ofNullable(users).orElse(null);
+		return Optional.ofNullable(users).orElse(new ArrayList<UserInfo> ());
 	}
 
 	@Override
 	public UserInfo saveUser(PostUserRequestBody u) {
-		GroupInfo group = groupRepo.findById(u.getGid()).get();
+		GroupInfo group = groupRepo.findById(u.getGid()).orElseThrow(() -> new GroupIsNotExistException("gid " + u.getGid() + " is not exist"));
 		UserInfo user = userRepo.save(new UserInfo(u.getUserName(), group));
 		redisRepo.save(new CachedUser(u.getUserName(), group.getGroupName()));
 		return user;

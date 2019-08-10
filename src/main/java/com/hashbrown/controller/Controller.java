@@ -43,7 +43,7 @@ public class Controller {
 	@Autowired
 	private DataService dService;
  
-    @RequestMapping(value="/who")
+    @RequestMapping(value="/who", method=RequestMethod.GET)
     @ResponseBody
     public String who() {
         return whoAmI;
@@ -107,37 +107,10 @@ public class Controller {
     	return new ResponseEntity<String>(groupName, HttpStatus.OK);
     } 
     
-    
-    
-    
-    @RequestMapping(value="/test", method=RequestMethod.POST)
+    @RequestMapping(value="/health", method=RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<PostTestResponseBody> postTest(@RequestBody PostTest body) {
-        //return new PostTestResponseBody(body);
-    	return new ResponseEntity<PostTestResponseBody>(new PostTestResponseBody(body), HttpStatus.BAD_REQUEST);
-        
-    }
-    
-    @RequestMapping(value="/test", method=RequestMethod.PUT)
-    @ResponseBody
-    public ResponseEntity<PostTestResponseBody> putTest(@RequestBody PostTest body) {
-        //return new PostTestResponseBody(body);
-    	return new ResponseEntity<PostTestResponseBody>(new PostTestResponseBody(body), HttpStatus.OK);
-        
-    }
-    
-    @RequestMapping(value="/test", method=RequestMethod.DELETE)
-    @ResponseBody
-    public ResponseEntity<PostTestResponseBody> deleteTest(@RequestBody PostTest body) {
-        //return new PostTestResponseBody(body);
-    	return new ResponseEntity<PostTestResponseBody>(new PostTestResponseBody(body), HttpStatus.INTERNAL_SERVER_ERROR);
-        
-    }
-    
-    @RequestMapping(value="/health")
-    @ResponseBody
-    public String health() {
-        return "Health";
+    public ResponseEntity<?> health() {
+        return ResponseEntity.ok().build();
     }
     
 
