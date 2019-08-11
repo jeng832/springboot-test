@@ -17,6 +17,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -130,15 +131,24 @@ public class Controller {
     public ResponseEntity<?> health() {
         return ResponseEntity.ok().build();
     }
-	@RequestMapping("/hello/user")
+	@RequestMapping(value="/hello/server/user", method=RequestMethod.POST)
+	public UserInfoViewList showUsers(UserInfoViewList a, @RequestBody MultiValueMap<String, String> formData) {
+		int draw = Integer.parseInt(formData.get("draw").get(0));
+		int start = Integer.parseInt(formData.get("start").get(0));
+		int length = Integer.parseInt(formData.get("length").get(0));
+		
+		Long total = dService.countUser();
+		UserInfoViewList response = dService.findByUidBetween((long)start, (long)(start + length));
+		response.setDraw(draw);
+		response.setRecordsTotal(total);
+		response.setRecordsFiltered(total);
+				
+		return dService.findAllUsers();
+	}
+	
+	@RequestMapping("/hello/client/user")
 	public UserInfoViewList showUsers() {
 		
 		return dService.findAllUsers();
 	}
-	
-//	@RequestMapping("/hello/user")
-//	public List<UserInfo> showUsers() {
-//		
-//		return dService.findAll();
-//	}
 }

@@ -26,5 +26,7 @@ public interface DataService {
 	List<UserInfo> findAll();
 	Page<UserInfo> findAll(Pageable pageable);
 	UserInfoViewList findAllUsers();
+	Long countUser();
+	UserInfoViewList findByUidBetween(Long start, Long end);
 
 }

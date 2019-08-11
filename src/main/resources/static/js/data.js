@@ -2,17 +2,14 @@
 $(document).ready(() => {
 	
     $('#couponTable').DataTable({
+    	paging: true,
     	pageLength: 3,
-    	bPaginate: true,
-    	bLengthChange: true,
-    	lengthMenu : [3, 5, 10],
-        bAutoWidth: false,
-        processing: true,
-        serverSide: true,
+    	paginType: "simple",
+        processing: false,
+        bServerSide: false,
         ordering: false,
-        searching: false,
         ajax: {
-        	'url': '/hello/user',
+        	'url': '/hello/client/user',
         	'type': 'GET'
         },
         columns: [

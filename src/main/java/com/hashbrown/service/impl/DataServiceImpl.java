@@ -124,4 +124,20 @@ public class DataServiceImpl implements DataService {
 		}
 		return new UserInfoViewList(data);
 	}
+	
+	@Override
+	public Long countUser() {
+		return userRepo.count();
+	}
+	
+	@Override
+	public UserInfoViewList findByUidBetween(Long start, Long end) {
+		List<UserInfoView> data = new ArrayList<>();
+		List<UserInfo> users = userRepo.findByUidBetween(start, end);
+		for(UserInfo user : users) {
+			data.add(new UserInfoView(user));
+		}
+		return new UserInfoViewList(data);
+		
+	}
 }
