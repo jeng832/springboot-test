@@ -1,5 +1,6 @@
 package com.hashbrown.controller;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
@@ -9,6 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +33,8 @@ import com.hashbrown.model.PostGroupRequestBody;
 import com.hashbrown.model.PostTest;
 import com.hashbrown.model.PostTestResponseBody;
 import com.hashbrown.model.PostUserRequestBody;
+import com.hashbrown.model.UserInfoView;
+import com.hashbrown.model.UserInfoViewList;
 import com.hashbrown.service.DataService;
 
 
@@ -49,12 +56,12 @@ public class Controller {
         return whoAmI;
     }
 	
-    @RequestMapping(value="/hello", method=RequestMethod.GET)
-    @ResponseBody
-    public String hello() {
-        return "Hello Spring Boot!";
-        
-    }
+//    @RequestMapping(value="/hello", method=RequestMethod.GET)
+//    @ResponseBody
+//    public String hello() {
+//        return "Hello Spring Boot!";
+//        
+//    }
     
     @RequestMapping(value="/group", method=RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseBody
@@ -80,9 +87,21 @@ public class Controller {
     	return ResponseEntity.ok().build();
     } 
     
-    @RequestMapping(value="/user/{uid}", method=RequestMethod.GET)
+    @RequestMapping(value="/user", method=RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<GetUserResponseBody> getUser(@PathVariable Long uid) {
+    public ResponseEntity<List<UserInfo>> getUserList() {
+    	logger.info("All users");
+    	List<UserInfo> user = null;
+    	
+    	user = dService.findAll();
+    	    	
+    	return new ResponseEntity<List<UserInfo>>(user, HttpStatus.OK);
+    } 
+    
+    @RequestMapping(value="/user/uid/{uid}", method=RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<GetUserResponseBody> getUser(@PathVariable @Valid Long uid) {
+    	logger.info("user" + uid);
     	UserInfo user = null;
     	try {
     		user = dService.findByUid(uid);
@@ -92,7 +111,6 @@ public class Controller {
     	
     	return new ResponseEntity<GetUserResponseBody>(new GetUserResponseBody(user), HttpStatus.OK);
     } 
-    
     
     @RequestMapping(value="/group/by/{username}", method=RequestMethod.GET)
     @ResponseBody
@@ -112,6 +130,15 @@ public class Controller {
     public ResponseEntity<?> health() {
         return ResponseEntity.ok().build();
     }
-    
-
+	@RequestMapping("/hello/user")
+	public UserInfoViewList showUsers() {
+		
+		return dService.findAllUsers();
+	}
+	
+//	@RequestMapping("/hello/user")
+//	public List<UserInfo> showUsers() {
+//		
+//		return dService.findAll();
+//	}
 }

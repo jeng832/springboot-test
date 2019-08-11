@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +23,8 @@ import com.hashbrown.dao.repository.UserInfoRepository;
 import com.hashbrown.exception.GroupIsNotExistException;
 import com.hashbrown.model.PostGroupRequestBody;
 import com.hashbrown.model.PostUserRequestBody;
+import com.hashbrown.model.UserInfoView;
+import com.hashbrown.model.UserInfoViewList;
 import com.hashbrown.service.DataService;
 
 @Service
@@ -99,5 +104,24 @@ public class DataServiceImpl implements DataService {
 	public UserInfo findByUid(Long uid) {
 		return userRepo.findById(uid).get();
 	}
-
+	
+	@Override
+	public List<UserInfo> findAll() {
+		return userRepo.findAll();
+	}
+	
+	@Override
+	public Page<UserInfo> findAll(Pageable pageable) {
+		return userRepo.findAll(pageable);
+	}
+	
+	@Override
+	public UserInfoViewList findAllUsers() {
+		List<UserInfoView> data = new ArrayList<>();
+		List<UserInfo> users = userRepo.findAll();
+		for(UserInfo user : users) {
+			data.add(new UserInfoView(user));
+		}
+		return new UserInfoViewList(data);
+	}
 }

@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 public class GroupInfo {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="gid", nullable = false)
 	private Long gid;
 	@Column(name="group_name", nullable = false)
