@@ -1,5 +1,6 @@
 package com.hashbrown.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -133,17 +134,36 @@ public class Controller {
     }
 	@RequestMapping(value="/hello/server/user", method=RequestMethod.POST)
 	public UserInfoViewList showUsers(UserInfoViewList a, @RequestBody MultiValueMap<String, String> formData) {
+		logger.info(formData.toString());
 		int draw = Integer.parseInt(formData.get("draw").get(0));
 		int start = Integer.parseInt(formData.get("start").get(0));
 		int length = Integer.parseInt(formData.get("length").get(0));
+		String nameParam = formData.get("search[value]").get(0);
+
+		UserInfoViewList response = null;
+		Long total = 0L;
+		if(nameParam.length() > 0) { //searching
+			total = dService.countUserByName(nameParam);
+			List<UserInfo> users = dService.findByUserName(nameParam);
+			List<UserInfoView> data = new ArrayList<>();
+			for(UserInfo user : users) {
+				data.add(new UserInfoView(user));
+			}
+			response = new UserInfoViewList(data);
+		} else { //paging
+			total = dService.countUser();
+			if(length == -1) {
+				response = dService.findAllUsers();
+			} else { 
+				response = dService.findByUidBetween((long)(start + 1), (long)(start + length));
+			}
+		}
 		
-		Long total = dService.countUser();
-		UserInfoViewList response = dService.findByUidBetween((long)start, (long)(start + length));
 		response.setDraw(draw);
 		response.setRecordsTotal(total);
 		response.setRecordsFiltered(total);
 				
-		return dService.findAllUsers();
+		return response;
 	}
 	
 	@RequestMapping("/hello/client/user")

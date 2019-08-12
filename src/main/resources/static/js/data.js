@@ -5,12 +5,15 @@ $(document).ready(() => {
     	paging: true,
     	pageLength: 3,
     	paginType: "simple",
-        processing: false,
-        bServerSide: false,
+    	"lengthMenu" : [ [ 3, 5, 10, -1 ], [ 3, 5, 10, "All" ] ],
+        processing: true,
+        serverSide: true,
+        searching: true,
         ordering: false,
         ajax: {
-        	'url': '/hello/client/user',
-        	'type': 'GET'
+        	'url': '/hello/server/user',
+        	'type': 'POST'
+        	
         },
         columns: [
             {"data": "uid"},

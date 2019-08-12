@@ -28,5 +28,6 @@ public interface DataService {
 	UserInfoViewList findAllUsers();
 	Long countUser();
 	UserInfoViewList findByUidBetween(Long start, Long end);
+	Long countUserByName(String userName);
 
 }

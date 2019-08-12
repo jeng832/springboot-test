@@ -131,6 +131,11 @@ public class DataServiceImpl implements DataService {
 	}
 	
 	@Override
+	public Long countUserByName(String userName) {
+		return userRepo.countByUserName(userName);
+	}
+	
+	@Override
 	public UserInfoViewList findByUidBetween(Long start, Long end) {
 		List<UserInfoView> data = new ArrayList<>();
 		List<UserInfo> users = userRepo.findByUidBetween(start, end);
